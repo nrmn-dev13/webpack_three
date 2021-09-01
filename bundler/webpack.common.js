@@ -3,7 +3,9 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const path = require('path')
 
 module.exports = {
-  entry: path.resolve(__dirname, '../src/index.js'),
+  entry: {
+    app: path.resolve(__dirname, '../src/index.js')
+  },
   output:
   {
     filename: 'bundle.[hash].js',
@@ -14,8 +16,15 @@ module.exports = {
     [
       new CopyWebpackPlugin([{ from: path.resolve(__dirname, '../static') }]),
       new HtmlWebpackPlugin({
+        filename: 'index.html',
         template: path.resolve(__dirname, '../src/index.html'),
         minify: true
+      }),
+      new HtmlWebpackPlugin({
+        filename: 'inside.html',
+        template: path.resolve(__dirname, '../src/inside.html'),
+        minify: true,
+        chunks: ['app']
       })
     ],
   module:
@@ -62,22 +71,6 @@ module.exports = {
               }
             ]
         },
-        // Multi page
-        {
-          test: /\.html$/,
-          use:
-            [
-              {
-                loader: 'file-loader',
-                options:
-                {
-                  name: '[name].[ext]'
-                }
-              }
-            ],
-            exclude: path.resolve(__dirname, '../src/index.html')
-        },
-
         // Shaders
         {
           test: /\.(glsl|vs|fs|vert|frag)$/,
