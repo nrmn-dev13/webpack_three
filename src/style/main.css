@@ -38,7 +38,7 @@ canvas {
   flex-wrap: nowrap;
   flex-direction: row;
   gap: 100px;
-  padding: 200px;
+  padding: 100px;
   /* width: auto; */
 }
 
